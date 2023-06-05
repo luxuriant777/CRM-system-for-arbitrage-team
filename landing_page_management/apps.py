@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class LandingPageManagementConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'landing_page_management'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "landing_page_management"
