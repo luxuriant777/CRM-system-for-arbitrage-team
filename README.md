@@ -1,8 +1,9 @@
-## To perform a POST request to register a user, you can follow these steps:
+## 1. To register a user (a team member):
 
 1. Open Postman and enter this URL:
-   http://localhost:8000/api/register/
-
+   ```bash
+   http://127.0.0.1:8000/api/register/
+   ```
 2. Select the HTTP method as "POST".
 
 3. Click on the "Body" tab below the URL field.
@@ -30,18 +31,19 @@
         }
     }
     ```
-## To perform a POST request to log in as a registered user, you can follow these steps:
+## 2. To login as a registered user:
 
 1. Open Postman and enter this URL:
-   http://localhost:8000/api/login/.
-
+   ```bash
+   http://127.0.0.1:8000/api/login/
+   ```
 2. Select the HTTP method as "POST".
 
 3. Click on the "Body" tab below the URL field.
 
 4. Select the "raw" option and choose "JSON" from the dropdown menu.
 
-5. In the request body, provide the JSON payload containing the username, email, and password. For example:
+5. In the request body, provide the JSON payload containing the username and password. For example:
     ```json
     {
       "username": "example_user",
@@ -58,16 +60,20 @@
         "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1OTc0MTQ3LCJpYXQiOjE2ODU5NzM4NDcsImp0aSI6ImZkZTE2NWZjZmQyZDRkOTJhY2FjNmQ1NTQyODBlZGQwIiwidXNlcl9pZCI6MiwicGF5bG9hZCI6eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImV4YW1wbGUifX0.F4y3hLbOk3UcJBoSKZIaZvGO2HtXCghgy7vszq4mIuM"
     }
     ```
-## To perform a Get request to list all registered users, you can follow these steps:
+   The `access_token` should be used to make requests to all endpoints that require authorization.
+
+## 3. To list all registered users:
 
 1. Open Postman and enter this URL:
-   http://localhost:8000/api/users/.
-
+   ```bash
+   http://127.0.0.1:8000/api/users/
+   ```
 2. Select the HTTP method as "GET".
 
-3. Click on the "Authorisation" tab below the URL field.
+3. Click on the "Authorization" tab below the URL field.
 
-4. Select the "Bearer Token" option and enter the token you received when performed the login request. For example:
+4. Select the "Bearer Token" option and enter the `access_token` you received when performed the login request. 
+   For example:
    ```
    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1OTc0MTQ3LCJpYXQiOjE2ODU5NzM4NDcsImp0aSI6ImZkZTE2NWZjZmQyZDRkOTJhY2FjNmQ1NTQyODBlZGQwIiwidXNlcl9pZCI6MiwicGF5bG9hZCI6eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImV4YW1wbGUifX0.F4y3hLbOk3UcJBoSKZIaZvGO2HtXCghgy7vszq4mIuM
    ```
@@ -98,3 +104,197 @@
        }
    ]
     ```
+## 4. To create a lead (a basic "visit" to the landing page, with or without making a purchase):
+1. Open Postman and enter this URL:
+   ```bash
+   http://127.0.0.1:8000/api/leads/create/
+   ```
+2. Select the HTTP method as "POST".
+
+3. Click on the "Body" tab below the URL field.
+
+4. Select the "raw" option and choose "JSON" from the dropdown menu.
+
+5. In the request body, provide the JSON payload containing the ip address, useragent, and referral source. For example:
+    ```json
+    {
+    "ip_address": "192.168.4.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+    "referral_source": "example.com"
+    }
+    ```
+6. Click the "Send" button to send the request.
+7. Postman will send the POST request to the specified URL with the provided JSON payload. You should receive a 
+   response indicating whether the request was successful or any errors that occurred. If the request was successful,
+   you will see this:
+    ```json
+    {
+    "id": 1,
+    "ip_address": "192.168.4.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+    "referral_source": "example.com",
+    "created_at": "2023-06-05T16:35:50.855164Z"
+    }
+    ```
+
+## 5. To list all available leads:
+1. Open Postman and enter this URL:
+   ```bash
+   http://127.0.0.1:8000/api/leads/list/
+   ```
+2. Select the HTTP method as "GET".
+
+3. Click on the "Authorization" tab below the URL field.
+
+4. Select the "Bearer Token" option and enter the `access_token` you received when performed the login request. 
+   For example:
+   ```
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1OTc0MTQ3LCJpYXQiOjE2ODU5NzM4NDcsImp0aSI6ImZkZTE2NWZjZmQyZDRkOTJhY2FjNmQ1NTQyODBlZGQwIiwidXNlcl9pZCI6MiwicGF5bG9hZCI6eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImV4YW1wbGUifX0.F4y3hLbOk3UcJBoSKZIaZvGO2HtXCghgy7vszq4mIuM
+   ```
+5. Click the "Send" button to send the request.
+6. Postman will send the GET request to the specified URL. You should receive a response with the list of all leads, 
+   or message with errors that occurred. If the request was successful, you will see this:
+    ```json
+   [
+    {
+        "id": 1,
+        "ip_address": "192.168.0.1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "referral_source": "example.com",
+        "created_at": "2023-06-05T16:11:00.675296Z"
+    },
+    {
+        "id": 2,
+        "ip_address": "192.168.1.1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "referral_source": "example.com",
+        "created_at": "2023-06-05T16:11:13.301890Z"
+    },
+    {
+        "id": 3,
+        "ip_address": "192.168.3.1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "referral_source": "example.com",
+        "created_at": "2023-06-05T16:11:17.313468Z"
+    },
+    {
+        "id": 4,
+        "ip_address": "192.168.4.1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "referral_source": "example.com",
+        "created_at": "2023-06-05T16:11:25.080204Z"
+    }
+    ]
+    ```
+
+## 6. To create an order (a purchase made by the customer):
+1. Open Postman and enter this URL:
+   ```bash
+   http://127.0.0.1:8000/api/orders/create/
+   ```
+2. Select the HTTP method as "POST".
+
+3. Click on the "Body" tab below the URL field.
+
+4. Select the "raw" option and choose "JSON" from the dropdown menu.
+
+5. In the request body, provide the JSON payload containing the lead ID, email, phone number, first and last names, and
+   delivery address. This simulates a situation where the customer has made a purchase and filled out the order form.
+   Here is the example:
+    ```json
+    {
+    "lead": "1",
+    "email": "example@example.com",
+    "phone_number": "1234567890",
+    "first_name": "John",
+    "last_name": "Doe",
+    "delivery_address": "123 Main St, City, Country"
+    }
+    ```
+6. Click the "Send" button to send the request.
+7. Postman will send the POST request to the specified URL with the provided JSON payload. You should receive a 
+   response indicating whether the request was successful or any errors that occurred. If the rewuest was successful,
+   you will see this:
+    ```json
+    {
+    "id": 1,
+    "email": "example@example.com",
+    "phone_number": "1234567890",
+    "first_name": "John",
+    "last_name": "Doe",
+    "delivery_address": "123 Main St, City, Country",
+    "created_at": "2023-06-05T16:22:14.489170Z",
+    "lead": 1
+    }
+    ```
+
+## 7. To list all available orders (with the ability to view associated lead details):
+1. Open Postman and enter this URL:
+   ```bash
+   http://127.0.0.1:8000/api/orders/list/
+   ```
+2. Select the HTTP method as "GET".
+
+3. Click on the "Authorization" tab below the URL field.
+
+4. Select the "Bearer Token" option and enter the `access_token` you received when performed the login request. 
+   For example:
+   ```
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1OTc0MTQ3LCJpYXQiOjE2ODU5NzM4NDcsImp0aSI6ImZkZTE2NWZjZmQyZDRkOTJhY2FjNmQ1NTQyODBlZGQwIiwidXNlcl9pZCI6MiwicGF5bG9hZCI6eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImV4YW1wbGUifX0.F4y3hLbOk3UcJBoSKZIaZvGO2HtXCghgy7vszq4mIuM
+   ```
+5. Click the "Send" button to send the request.
+6. Postman will send the GET request to the specified URL. You should receive a response with the list of all orders,
+   or message with errors that occurred. If the request was successful, you will see this:
+    ```json
+   [
+    {
+        "id": 1,
+        "email": "example@example.com",
+        "phone_number": "1234567890",
+        "first_name": "John",
+        "last_name": "Doe",
+        "delivery_address": "123 Main St, City, Country",
+        "created_at": "2023-06-05T16:21:53.774959Z",
+        "lead": {
+            "id": 1,
+            "ip_address": "192.168.0.1",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+            "referral_source": "example.com",
+            "created_at": "2023-06-05T16:11:00.675296Z"
+        }
+    },
+    {
+        "id": 2,
+        "email": "example@example.com",
+        "phone_number": "1234567890",
+        "first_name": "John",
+        "last_name": "Doe",
+        "delivery_address": "123 Main St, City, Country",
+        "created_at": "2023-06-05T16:22:10.367480Z",
+        "lead": {
+            "id": 1,
+            "ip_address": "192.168.0.1",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+            "referral_source": "example.com",
+            "created_at": "2023-06-05T16:11:00.675296Z"
+        }
+    },
+    {
+        "id": 3,
+        "email": "example@example.com",
+        "phone_number": "1234567890",
+        "first_name": "John",
+        "last_name": "Doe",
+        "delivery_address": "123 Main St, City, Country",
+        "created_at": "2023-06-05T16:22:14.489170Z",
+        "lead": {
+            "id": 1,
+            "ip_address": "192.168.0.1",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+            "referral_source": "example.com",
+            "created_at": "2023-06-05T16:11:00.675296Z"
+        }
+    }
+    ]
+    ```
+    Please note that all information related to the details of the corresponding lead will also be included.
