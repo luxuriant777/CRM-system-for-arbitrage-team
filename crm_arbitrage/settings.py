@@ -78,9 +78,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "crm_arbitrage.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 DATABASES = {
     "default": {

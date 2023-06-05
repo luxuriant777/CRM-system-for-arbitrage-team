@@ -1,9 +1,18 @@
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserRegistrationSerializer, UserLoginSerializer
+from .models import CustomUser
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer
+
+
+class UserListView(ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class UserRegistrationView(APIView):
