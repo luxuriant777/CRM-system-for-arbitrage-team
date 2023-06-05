@@ -1,4 +1,4 @@
-## To perform a POST request to register a user using Postman, you can follow these steps:
+## To perform a POST request to register a user, you can follow these steps:
 
 1. Open Postman and enter this URL:
    http://localhost:8000/api/register/
