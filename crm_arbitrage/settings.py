@@ -15,10 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-_5-*@d6(^*0bjl0%*x1zj1d#a(-fgah_qsnp*yqp7fgs@_m=#n"
 
@@ -26,9 +22,6 @@ SECRET_KEY = "django-insecure-_5-*@d6(^*0bjl0%*x1zj1d#a(-fgah_qsnp*yqp7fgs@_m=#n
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -47,6 +40,7 @@ INSTALLED_APPS = [
     "landing_page_management",
     "revenue_tracking",
     "notifications",
+    "celery"
 ]
 
 MIDDLEWARE = [
@@ -78,6 +72,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "crm_arbitrage.wsgi.application"
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+
+CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -128,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

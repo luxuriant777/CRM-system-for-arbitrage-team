@@ -12,7 +12,7 @@ class Lead(models.Model):
 
 
 class Order(models.Model):
-    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='orders')
+    lead_id = models.IntegerField(default=0)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50)

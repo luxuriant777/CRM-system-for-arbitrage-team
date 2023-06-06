@@ -1,4 +1,11 @@
-## 1. To register a user (a team member):
+## 1. Asynchronous processing of `leads` and `orders` creation
+   To enable the simultaneous storage of multiple `lead` or `order` creation requests, it is necessary to install
+   RabbitMQ and start `celery`. Assuming, that you have [RabbitMQ](https://www.rabbitmq.com/) installed, run the
+   following command in the command prompt or bash while in the root folder of the project:
+   ```bash
+   celery -A crm_arbitrage worker --loglevel=info -P eventlet
+   ```
+## 2. To register a user (a team member):
 
 1. Open Postman and enter this URL:
    ```bash
@@ -31,7 +38,7 @@
         }
     }
     ```
-## 2. To login as a registered user:
+## 3. To login as a registered user:
 
 1. Open Postman and enter this URL:
    ```bash
@@ -62,7 +69,7 @@
     ```
    The `access_token` should be used to make requests to all endpoints that require authorization.
 
-## 3. To list all registered users:
+## 4. To list all registered users:
 
 1. Open Postman and enter this URL:
    ```bash
@@ -104,7 +111,7 @@
        }
    ]
     ```
-## 4. To create a lead (a basic "visit" to the landing page, with or without making a purchase):
+## 5. To create a lead (a basic "visit" to the landing page, with or without making a purchase):
 1. Open Postman and enter this URL:
    ```bash
    http://127.0.0.1:8000/api/leads/create/
@@ -137,7 +144,7 @@
     }
     ```
 
-## 5. To list all available leads:
+## 6. To list all available leads:
 1. Open Postman and enter this URL:
    ```bash
    http://127.0.0.1:8000/api/leads/list/
@@ -176,18 +183,11 @@
         "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
         "referral_source": "example.com",
         "created_at": "2023-06-05T16:11:17.313468Z"
-    },
-    {
-        "id": 4,
-        "ip_address": "192.168.4.1",
-        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
-        "referral_source": "example.com",
-        "created_at": "2023-06-05T16:11:25.080204Z"
     }
     ]
     ```
 
-## 6. To create an order (a purchase made by the customer):
+## 7. To create an order (a purchase made by the customer):
 1. Open Postman and enter this URL:
    ```bash
    http://127.0.0.1:8000/api/orders/create/
@@ -203,7 +203,7 @@
    Here is the example:
     ```json
     {
-    "lead": "1",
+    "lead_id": 1,
     "email": "example@example.com",
     "phone_number": "1234567890",
     "first_name": "John",
@@ -217,18 +217,23 @@
    you will see this:
     ```json
     {
-    "id": 1,
+    "lead_id": 7,
     "email": "example@example.com",
     "phone_number": "1234567890",
     "first_name": "John",
     "last_name": "Doe",
     "delivery_address": "123 Main St, City, Country",
-    "created_at": "2023-06-05T16:22:14.489170Z",
-    "lead": 1
+    "lead": {
+        "id": 7,
+        "ip_address": "192.168.8.1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "referral_source": "example.com",
+        "created_at": "2023-06-06T03:08:18.381655Z"
+        }
     }
     ```
 
-## 7. To list all available orders (with the ability to view associated lead details):
+## 8. To list all available orders (with the ability to view associated lead details):
 1. Open Postman and enter this URL:
    ```bash
    http://127.0.0.1:8000/api/orders/list/
@@ -249,52 +254,55 @@
    [
     {
         "id": 1,
+        "lead_id": 3,
         "email": "example@example.com",
         "phone_number": "1234567890",
         "first_name": "John",
         "last_name": "Doe",
         "delivery_address": "123 Main St, City, Country",
-        "created_at": "2023-06-05T16:21:53.774959Z",
+        "created_at": "2023-06-06T02:52:07.115852Z",
         "lead": {
-            "id": 1,
-            "ip_address": "192.168.0.1",
+            "id": 3,
+            "ip_address": "192.168.8.1",
             "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
             "referral_source": "example.com",
-            "created_at": "2023-06-05T16:11:00.675296Z"
+            "created_at": "2023-06-06T02:51:45.971552Z"
         }
     },
     {
         "id": 2,
+        "lead_id": 3,
         "email": "example@example.com",
         "phone_number": "1234567890",
         "first_name": "John",
         "last_name": "Doe",
         "delivery_address": "123 Main St, City, Country",
-        "created_at": "2023-06-05T16:22:10.367480Z",
+        "created_at": "2023-06-06T02:52:09.917670Z",
         "lead": {
-            "id": 1,
-            "ip_address": "192.168.0.1",
+            "id": 3,
+            "ip_address": "192.168.8.1",
             "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
             "referral_source": "example.com",
-            "created_at": "2023-06-05T16:11:00.675296Z"
+            "created_at": "2023-06-06T02:51:45.971552Z"
         }
     },
     {
         "id": 3,
+        "lead_id": 3,
         "email": "example@example.com",
         "phone_number": "1234567890",
         "first_name": "John",
         "last_name": "Doe",
         "delivery_address": "123 Main St, City, Country",
-        "created_at": "2023-06-05T16:22:14.489170Z",
+        "created_at": "2023-06-06T02:52:11.116232Z",
         "lead": {
-            "id": 1,
-            "ip_address": "192.168.0.1",
+            "id": 3,
+            "ip_address": "192.168.8.1",
             "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
             "referral_source": "example.com",
-            "created_at": "2023-06-05T16:11:00.675296Z"
+            "created_at": "2023-06-06T02:51:45.971552Z"
         }
-    }
+     }
     ]
     ```
     Please note that all information related to the details of the corresponding lead will also be included.
