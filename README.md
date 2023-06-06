@@ -136,11 +136,9 @@
    you will see this:
     ```json
     {
-    "id": 1,
     "ip_address": "192.168.4.1",
     "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
-    "referral_source": "example.com",
-    "created_at": "2023-06-05T16:35:50.855164Z"
+    "referral_source": "example.com"
     }
     ```
 
@@ -217,14 +215,14 @@
    you will see this:
     ```json
     {
-    "lead_id": 7,
+    "lead_id": 1,
     "email": "example@example.com",
     "phone_number": "1234567890",
     "first_name": "John",
     "last_name": "Doe",
     "delivery_address": "123 Main St, City, Country",
     "lead": {
-        "id": 7,
+        "id": 1,
         "ip_address": "192.168.8.1",
         "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
         "referral_source": "example.com",
