@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "landing_page_management",
     "revenue_tracking",
     "notifications",
-    "celery"
+    "celery",
 ]
 
 MIDDLEWARE = [
@@ -73,12 +73,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "crm_arbitrage.wsgi.application"
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672/"
 
-CELERY_RESULT_BACKEND = 'rpc://'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
