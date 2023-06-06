@@ -211,7 +211,7 @@
     ```
 6. Click the "Send" button to send the request.
 7. Postman will send the POST request to the specified URL with the provided JSON payload. You should receive a 
-   response indicating whether the request was successful or any errors that occurred. If the rewuest was successful,
+   response indicating whether the request was successful or any errors that occurred. If the request was successful,
    you will see this:
     ```json
     {
