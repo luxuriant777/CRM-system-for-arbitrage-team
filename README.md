@@ -1,4 +1,4 @@
-### Installation
+# Installation
 1. Python3 must be installed. If not, please, visit https://www.python.org/ and choose appropriate version for your OS.
 2. Clone the repository:
    ```shell
