@@ -1,8 +1,11 @@
 # Installation
 1. Python3 must be installed. If not, please, visit https://www.python.org/ and choose appropriate version for your OS.
-2. Clone the repository:
+2. Clone the repository and navigate to the cloned folder using the `cd` command:
    ```shell
    git clone https://github.com/luxuriant777/CRM-system-for-arbitrage-team
+   ```
+   ```shell
+   cd CRM-system-for-arbitrage-team
    ```
 3. Switch to the `dev` branch:
    ```shell
