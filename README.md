@@ -36,7 +36,7 @@ installed:
    ```shell
    python manage.py runserver
    ```
-   Then you will be able to access the administrative interface by visiting http://localhost:8000/admin in your web 
+   Then you will be able to access the administrative interface by visiting `http://127.0.0.1:8000/admin` in your web 
    browser.
 # Usage
 ## 1. Asynchronous processing of `leads` and `orders` creation
