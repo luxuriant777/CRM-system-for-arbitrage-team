@@ -8,10 +8,14 @@ git clone https://github.com/luxuriant777/CRM-system-for-arbitrage-team
 ```shell
 git checkout dev
 ```
-4. Activate virtual environment - this is some kind of separated container, where all the necessary dependencies will be
+4. Activate the virtual environment - this is a separate container where all the necessary dependencies will be
 installed:
+```shell
 venv\Scripts\activate (on Windows)
+```
+```shell
 source venv/bin/activate (on macOS)
+```
 5. Install all the necessary packages:
 ```shell
 pip install -r requirements.txt
