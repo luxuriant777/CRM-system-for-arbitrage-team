@@ -1,3 +1,36 @@
+### Installation
+1. Python3 must be installed. If not, please, visit https://www.python.org/ and choose appropriate version for your OS.
+2. Clone the repository:
+```shell
+git clone https://github.com/luxuriant777/CRM-system-for-arbitrage-team
+```
+3. Switch to the `dev` branch:
+```shell
+git checkout dev
+```
+4. Activate virtual environment - this is some kind of separated container, where all the necessary dependencies will be
+installed:
+venv\Scripts\activate (on Windows)
+source venv/bin/activate (on macOS)
+5. Install all the necessary packages:
+```shell
+pip install -r requirements.txt
+```
+6. Apply migrations:
+```shell
+python manage.py migrate
+```
+7. Create a superuser. You will be asked to provide a username, email (optional), and password:
+```shell
+python manage.py createsuperuser
+```
+A superuser account can be used to log in to the Django administrative interface and perform administrative tasks. 
+8. You can start the development server by running:
+```shell
+python manage.py runserver
+```
+Then you will be able to access the administrative interface by visiting http://localhost:8000/admin in your web browser.
+# Usage
 ## 1. Asynchronous processing of `leads` and `orders` creation
    To enable the simultaneous storage of multiple `lead` or `order` creation requests, it is necessary to install
    RabbitMQ and start `celery`. Assuming, that you have [RabbitMQ](https://www.rabbitmq.com/) installed, run the
