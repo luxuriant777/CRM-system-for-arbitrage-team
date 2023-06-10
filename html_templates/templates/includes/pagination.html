@@ -1,7 +1,6 @@
 {% load query_transform %}
 {% if is_paginated %}
 <div class="container-fluid py-4">
-  <div class="row">
     <div class="col-12">
       <ul class="pagination">
         {% if page_obj.has_previous %}
@@ -20,6 +19,5 @@
         {% endif %}
       </ul>
     </div>
-  </div>
 </div>
 {% endif %}

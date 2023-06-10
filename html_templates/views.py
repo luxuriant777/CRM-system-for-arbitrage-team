@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -10,6 +9,7 @@ from django.views import generic
 from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from user_management.models import CustomUser
 from customer_management.models import Lead
+from .forms import CustomUserForm
 
 
 def index(request):
@@ -29,7 +29,7 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "lead_list"
     template_name = "crm/lead_list.html"
     queryset = Lead.objects.all()
-    paginate_by = 5
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(LeadListView, self).get_context_data(**kwargs)
@@ -89,7 +89,7 @@ class LeadDeleteView(LoginRequiredMixin, generic.DeleteView):
 class CustomUserListView(LoginRequiredMixin, generic.ListView):
     model = CustomUser
     queryset = CustomUser.objects.all()
-    paginate_by = 5
+    paginate_by = 10
     template_name = "crm/user_list.html"
     context_object_name = "user_list"
 
@@ -119,25 +119,20 @@ class CustomUserDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.get_object()
+        context["user"] = self.get_object()
         return context
 
 
 class CustomUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = CustomUser
-    fields = "__all__"
+    form_class = CustomUserForm
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_form.html"
-
-    def form_valid(self, form):
-        form.instance.password = make_password(form.instance.password)
-        form.instance.image = self.request.FILES.get('image')
-        return super().form_valid(form)
 
 
 class CustomUserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = CustomUser
-    fields = "__all__"
+    form_class = CustomUserForm
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_form.html"
 
