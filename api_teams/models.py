@@ -10,23 +10,23 @@ class Team(models.Model):
         CustomUser,
         on_delete=models.SET_NULL,
         null=True,
-        limit_choices_to={'position': Position.TEAM_LEAD},
-        related_name="teams_lead",
+        limit_choices_to={"position": Position.TEAM_LEAD},
+        related_name="team_lead",
     )
     members = models.ManyToManyField(
         CustomUser,
-        limit_choices_to={'position': Position.BUYER},
-        related_name="teams_member",
+        limit_choices_to={"position": Position.BUYER},
+        related_name="team_member",
         blank=True,
+    )
+    creator = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="team_creator"
     )
 
     class Meta:
         ordering = ["name"]
-
-    def save(self, *args, **kwargs):
-        if self.members.filter(position=Position.BUYER).annotate(num_teams=Count('teams_member')).filter(num_teams__gt=1).exists():
-            raise ValidationError("A buyer can only be a member of one team.")
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
