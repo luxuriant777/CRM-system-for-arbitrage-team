@@ -26,7 +26,7 @@ class UserMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        leads = Lead.objects.filter(user_id=user.id).order_by('-created_at')
+        leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
         context["user"] = user
         context["leads"] = leads
         return context
@@ -58,7 +58,9 @@ class LeadListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
                 Q(ip_address__icontains=form.cleaned_data["search"]) |
                 Q(user_agent__icontains=form.cleaned_data["search"]) |
                 Q(referral_source__icontains=form.cleaned_data["search"])
-            )
+            ).order_by("-created_at")
+        
+        return Lead.objects.order_by("-created_at")
 
 
 class LeadDetailView(LoginRequiredMixin, generic.DetailView):
@@ -67,8 +69,8 @@ class LeadDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        lead = context['lead']
-        context['user'] = get_object_or_404(CustomUser, id=lead.user_id)
+        lead = context["lead"]
+        context["user"] = get_object_or_404(CustomUser, id=lead.user_id)
         return context
 
 
@@ -146,4 +148,4 @@ def toggle_lead_assign(request, pk):
         user.leads.remove(pk)
     else:
         user.leads.add(pk)
-    return redirect('html_templates:lead-detail', pk=pk)
+    return redirect("html_templates:lead-detail", pk=pk)
