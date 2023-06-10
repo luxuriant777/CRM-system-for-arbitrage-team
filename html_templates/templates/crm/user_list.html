@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h3>User List</h3>
+          <a href="{% url 'html_templates:user-create' %}" class="btn btn-primary link-to-page">Create</a>
+          {% block search_form %}
+          {% include "includes/search_form.html" %}
+          {% endblock %}
+          {% if user_list %}
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0 table-hover">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Position
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in user_list %}
+                <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.username }} {% if user == request.user %} (Me){% endif %}</td>
+                  <td>{{ user.first_name }}</td>
+                  <td>{{ user.last_name }}</td>
+                  <td>{{ user.position }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p>There are no users.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
