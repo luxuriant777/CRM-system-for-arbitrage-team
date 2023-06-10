@@ -6,22 +6,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import CustomUser
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer
+from .serializers import CustomUserRegistrationSerializer, CustomUserLoginSerializer, CustomUserSerializer
 
 
 class UserListView(ListAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated]
 
 
 class UserRegistrationView(APIView):
     @staticmethod
     def post(request):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = CustomUserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            user_serializer = UserRegistrationSerializer(
+            user_serializer = CustomUserRegistrationSerializer(
                 user
             )  # Serialize the user object
             return Response(
@@ -37,7 +37,7 @@ class UserRegistrationView(APIView):
 class UserLoginView(APIView):
     @staticmethod
     def post(request):
-        serializer = UserLoginSerializer(data=request.data)
+        serializer = CustomUserLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]

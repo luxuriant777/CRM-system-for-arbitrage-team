@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models import Count
 from api_users.models import CustomUser, Position
+from django.core.exceptions import ValidationError
 
 
 class Team(models.Model):
@@ -20,6 +22,11 @@ class Team(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+    def save(self, *args, **kwargs):
+        if self.members.filter(position=Position.BUYER).annotate(num_teams=Count('teams_member')).filter(num_teams__gt=1).exists():
+            raise ValidationError("A buyer can only be a member of one team.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

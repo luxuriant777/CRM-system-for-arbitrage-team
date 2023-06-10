@@ -7,7 +7,7 @@ from django.views import generic
 
 from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from api_users.models import CustomUser
-from api_leads_orders.models import Lead
+from api_leads.models import Lead
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
 
