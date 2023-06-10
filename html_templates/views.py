@@ -4,7 +4,6 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.core.paginator import Paginator
 from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from api_users.models import CustomUser
 from api_leads.models import Lead
@@ -23,20 +22,11 @@ def index(request):
     return render(request, "crm/index.html", context=context)
 
 
-class PaginationMixin:
-    paginate_by = 10
-
-    def paginate_queryset(self, queryset):
-        paginator = Paginator(queryset, self.paginate_by)
-        page_number = self.request.GET.get('page')
-        return paginator.get_page(page_number)
-
-
 class UserMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        leads = Lead.objects.filter(user_id=user.id)
+        leads = Lead.objects.filter(user_id=user.id).order_by('-created_at')
         context["user"] = user
         context["leads"] = leads
         return context
