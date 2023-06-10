@@ -3,9 +3,10 @@ from django.db import models
 
 
 class Position(models.TextChoices):
-    BUYER = 'Buyer', 'Buyer'
-    TEAM_LEAD = 'Team Lead', 'Team Lead'
-    OWNER = 'Owner', 'Owner'
+    BUYER = "Buyer", "Buyer"
+    TEAM_LEAD = "Team Lead", "Team Lead"
+    FUNDS_COORDINATOR = "Funds Coordinator", "Funds Coordinator"
+    OWNER = "Owner", "Owner"
 
 
 class CustomUser(AbstractUser):
@@ -19,7 +20,7 @@ class CustomUser(AbstractUser):
     image = models.ImageField(upload_to="profile_images", default="profile_images/default.jpg", null=True, blank=True)
 
     class Meta:
-        ordering = ['username']
+        ordering = ["username"]
 
     def __str__(self):
         return self.username
