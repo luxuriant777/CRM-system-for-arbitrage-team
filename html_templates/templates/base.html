@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% block title %}<title>CRM system</title>{% endblock %}
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet %}"/>
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'assets/css/nucleo-icons.css' %}"/>
+  <link rel="stylesheet" href="{% static 'assets/css/nucleo-svg.css' %}"/>
+  <link rel="stylesheet" href="{% static 'assets/css/soft-ui-dashboard.css' %}"/>
+  <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+<body class="g-sidenav-show  bg-gray-100">
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <div class="container-fluid content">
+    <div class="row">
+      <div class="col-sm-3">
+        {% block sidebar %}
+        {% include "includes/sidebar.html" %}
+        {% endblock %}
+      </div>
+      <div class="col-sm-8 ">
+        {% block content %}
+        {% endblock %}
+        {% block pagination %}
+        {% include "includes/pagination.html" %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+  <h1>{{ object|yesno:"Update,Create" }} user</h1>
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+    {% if object %}
+      <a href="{% url 'html_templates:user-detail' pk=user.id %}" class="btn btn-secondary">Cancel</a>
+    {% else %}
+      <a href="{% url 'html_templates:user-list' %}" class="btn btn-secondary">Cancel</a>
+    {% endif %}
+  </form>
+{% endblock %}

@@ -8,7 +8,17 @@ SECRET_KEY = "django-insecure-_5-*@d6(^*0bjl0%*x1zj1d#a(-fgah_qsnp*yqp7fgs@_m=#n
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
     "jet.dashboard",
@@ -20,6 +30,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "bootstrap4",
+    "html_templates",
     "customer_management",
     "user_management",
     "campaign_management",
@@ -118,9 +130,5 @@ JET_THEMES = [
     {"theme": "light-blue", "color": "#5EADDE", "title": "Light Blue"},
     {"theme": "light-gray", "color": "#222", "title": "Light Gray"},
 ]
-
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

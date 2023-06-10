@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Do you want to delete user {{ user.first_name }} {{ user.last_name }}?</h1>
+<i>All details related to this user will be lost!</i>
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Yes" class="btn btn-danger">
+  <a href="{% url 'html_templates:user-detail' pk=user.id %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
