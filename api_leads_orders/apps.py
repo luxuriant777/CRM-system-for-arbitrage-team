@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AnalyticsReportingConfig(AppConfig):
+class CustomerManagementConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "analytics_reporting"
+    name = "api_leads_orders"

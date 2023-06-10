@@ -1,28 +1,32 @@
 from django import forms
 from django.contrib.auth.hashers import make_password
-from django.forms.widgets import PasswordInput
-from user_management.models import CustomUser
+from api_users.models import CustomUser
 
 
-class CustomUserForm(forms.ModelForm):
+class CustomUserCreationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = CustomUser
         fields = ["username", "password", "first_name", "last_name", "email", "position", "image"]
-        widgets = {
-            'password': PasswordInput(),
-        }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        image = self.files.get('image')
-
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
         if password:
-            cleaned_data['password'] = make_password(password)
-        if image:
-            cleaned_data['image'] = image
+            return make_password(password)
 
-        return cleaned_data
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.password = self.cleaned_data.get('password')
+        if commit:
+            user.save()
+        return user
+
+
+class CustomUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["username", "first_name", "last_name", "email", "position", "image"]
 
 
 class LeadSearchForm(forms.Form):

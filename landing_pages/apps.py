@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CampaignManagementConfig(AppConfig):
+class LandingPageManagementConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "campaign_management"
+    name = "landing_pages"

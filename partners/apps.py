@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class LandingPageManagementConfig(AppConfig):
+class PartnerManagementConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "landing_page_management"
+    name = "partners"

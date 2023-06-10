@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from user_management.models import CustomUser
+from api_users.models import CustomUser
 
 
 class Command(BaseCommand):

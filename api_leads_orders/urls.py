@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import LeadCreateView, LeadListView, OrderCreateView, OrderListView
 
-app_name = "customer_management"
+app_name = "api_leads_orders"
 
 urlpatterns = [
     path("leads/create/", LeadCreateView.as_view(), name="lead-create"),

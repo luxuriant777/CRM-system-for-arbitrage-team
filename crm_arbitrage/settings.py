@@ -32,14 +32,15 @@ INSTALLED_APPS = [
     "rest_framework",
     "bootstrap4",
     "html_templates",
-    "customer_management",
-    "user_management",
-    "campaign_management",
-    "partner_management",
+    "api_leads_orders",
+    "api_teams",
+    "api_users",
+    "campaigns",
+    "partners",
     "ad_ordering",
-    "analytics_reporting",
+    "analytics",
     "third_party_integration",
-    "landing_page_management",
+    "landing_pages",
     "revenue_tracking",
     "notifications",
     "celery",
@@ -95,7 +96,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "user_management.CustomUser"
+AUTH_USER_MODEL = "api_users.CustomUser"
 
 
 AUTH_PASSWORD_VALIDATORS = [
