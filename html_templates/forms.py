@@ -36,7 +36,6 @@ class LeadSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by leads"}),
     )
-    is_completed = forms.BooleanField(required=False)
 
 
 class CustomUserSearchForm(forms.Form):

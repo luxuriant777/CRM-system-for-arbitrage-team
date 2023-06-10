@@ -5,39 +5,20 @@
     <div class="col-12">
       <div class="card mb-4">
         <div class="card-header pb-0">
-          <h3 class="font-weight-bolder">{{ lead.name }}</h3>
+          <h3 class="font-weight-bolder">Lead ID: {{ lead.id }}</h3>
           <a href="{% url 'html_templates:lead-delete' pk=lead.id %}" class="btn btn-danger link-to-page">Delete</a>
           <a href="{% url 'html_templates:lead-update' pk=lead.id %}" class="btn btn-secondary link-to-page">Update</a>
           <div class="card">
             <div class="card-body p-3">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="d-flex flex-column h-100">
-                    {% if lead.is_completed %}
-                    <p class="mb-1 pt-2 text-bold">This lead is completed!</p>
-                    {% else %}
-                    <p class="mb-1 pt-2 text-bold">This lead is not done yet!</p>
-                    {% endif %}
-                    <h5 class="font-weight-bolder">Description:</h5>
-                    <p class="mb-5">{{ lead.description }}</p>
-                  </div>
-                </div>
-                <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-                  <div class="bg-gradient-primary border-radius-lg h-100">
-                    {% load static %}
-                    <img src="{% static 'assets/img/shapes/waves-white.svg' %}"
-                         class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
-                    <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                      <img class="w-100 position-relative z-index-2 pt-4"
-                           src="{% static 'assets/img/illustrations/rocket-white.png' %}" alt="rocket">
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <h5 class="font-weight-bolder">Lead Details:</h5>
+              <p class="mb-1 pt-2 text-bold">IP Address: {{ lead.ip_address }}</p>
+              <p class="mb-1 pt-2 text-bold">User Agent: {{ lead.user_agent }}</p>
+              <p class="mb-1 pt-2 text-bold">Referral Source: {{ lead.referral_source }}</p>
+              <p class="mb-1 pt-2 text-bold">Created At: {{ lead.created_at | date:"d M Y, H:i" }}</p>
             </div>
           </div>
           <div class="row">&nbsp;</div>
-          <h5 class="font-weight-bolder">Assignees</h5>
+          <h5 class="font-weight-bolder">User</h5>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
               <table class="table align-items-center mb-0 table-hover">
@@ -55,29 +36,20 @@
                   </th>
                 </tr>
                 </thead>
-                <tbody>
-                {% for user in lead.assignees.all %}
-                <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
-                  <td>{{ user.id }}</td>
-                  <td>{{ user.username }} {% if user == user %} (Me){% endif %}</td>
-                  <td>{{ user.first_name }}</td>
-                  <td>{{ user.last_name }}</td>
-                  <td>{{ user.position }}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
+                  <tbody>
+                  {% if user %}
+                  <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.position }}</td>
+                  </tr>
+                  {% endif %}
+                  </tbody>
               </table>
             </div>
           </div>
-          {% if lead in user.leads.all %}
-          <a href="{% url 'html_templates:toggle-lead-assign' pk=lead.id %}" class="btn btn-danger link-to-page">
-            Exclude me from this lead
-          </a>
-          {% else %}
-          <a href="{% url 'html_templates:toggle-lead-assign' pk=lead.id %}" class="btn btn-success link-to-page">
-            Assign me to this lead
-          </a>
-          {% endif %}
         </div>
       </div>
     </div>

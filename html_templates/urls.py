@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import RedirectView
 
 from .views import (
     index,
