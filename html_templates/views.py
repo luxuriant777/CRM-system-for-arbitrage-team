@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LogoutView as AuthLogoutView
-from django.contrib.auth import logout
+from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -129,6 +128,11 @@ class CustomUserCreateView(LoginRequiredMixin, generic.CreateView):
     fields = "__all__"
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_form.html"
+
+    def form_valid(self, form):
+        form.instance.password = make_password(form.instance.password)
+        form.instance.image = self.request.FILES.get('image')
+        return super().form_valid(form)
 
 
 class CustomUserUpdateView(LoginRequiredMixin, generic.UpdateView):
