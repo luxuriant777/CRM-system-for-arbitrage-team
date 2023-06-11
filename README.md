@@ -31,8 +31,12 @@ installed:
    ```shell
    python manage.py createsuperuser
    ```
-   A superuser account can be used to log in to the Django administrative interface and perform administrative tasks. 
-8. You can start the development server by running:
+   A superuser account can be used to log in to the Django administrative interface and perform administrative tasks.
+8. Create the necessary groups and permissions with this command:
+   ```shell
+   python manage.py check
+   ```
+9. You can start the development server by running:
    ```shell
    python manage.py runserver
    ```
