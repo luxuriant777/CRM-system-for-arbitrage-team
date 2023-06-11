@@ -20,6 +20,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
+LOGIN_URL = "/login/"
+
 INSTALLED_APPS = [
     "jet.dashboard",
     "jet",
@@ -102,7 +104,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = "api_users.CustomUser"
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -117,7 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
 
 LANGUAGE_CODE = "en-us"
 
