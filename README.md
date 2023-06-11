@@ -50,6 +50,8 @@ installed:
    ```bash
    celery -A crm_arbitrage worker --loglevel=info -P eventlet
    ```
+   This action is mandatory in order to be able to accept `leads` and `orders`. If `Celery` is not up and running, the
+   `leads` and `orders` will not be written to the database.
 ## 2. To register a user (a team member):
 
 1. Open Postman and enter this URL:

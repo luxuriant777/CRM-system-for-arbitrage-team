@@ -1,0 +1,35 @@
+/* Add some top margin to the pagination block */
+nav[aria-label="Table navigation"] {
+    margin-top: 20px;
+}
+
+/* Target the numbered pagination items specifically */
+.page-item > .page-link {
+    padding: 0.5em 1em !important;
+    border-radius: 50% !important;
+    width: auto !important;
+    height: 40px !important; /* Set the height to match the height of the rectangular buttons */
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: flex !important; /* Added to center align the text vertically */
+    align-items: center !important; /* Added to center align the text vertically */
+    justify-content: center !important; /* Added to center align the text horizontally */
+}
+
+/* Target the next and previous pagination items' page-link specifically */
+.next.page-item > .page-link,
+.previous.page-item > .page-link {
+    padding: 0.5em 1em !important;
+    border-radius: 0 !important;
+    width: auto !important;
+    height: 40px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: flex !important; /* Added to center align the text vertically */
+    align-items: center !important; /* Added to center align the text vertically */
+    justify-content: center !important; /* Added to center align the text horizontally */
+}

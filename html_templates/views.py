@@ -4,10 +4,13 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from django_tables2 import RequestConfig, SingleTableView, LazyPaginator
+
 from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from api_users.models import CustomUser
 from api_leads.models import Lead
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
+from .tables import LeadTable
 
 
 def index(request):
@@ -119,6 +122,15 @@ class CustomUserListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
 class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
     model = CustomUser
     template_name = "crm/user_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
+        table = LeadTable(leads)
+        RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
+        context["lead_table"] = table
+        return context
 
 
 class CustomUserCreateView(LoginRequiredMixin, generic.CreateView):
