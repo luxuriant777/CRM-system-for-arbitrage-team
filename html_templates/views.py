@@ -10,7 +10,8 @@ from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from api_users.models import CustomUser
 from api_leads.models import Lead
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
-from .tables import LeadTable
+from .tables import LeadTableByUser
+from .tables import LeadTableAllUsers
 
 
 def index(request):
@@ -49,12 +50,10 @@ class LeadListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
     model = Lead
     context_object_name = "lead_list"
     template_name = "crm/lead_list.html"
-    paginate_by = 10
     search_form_class = LeadSearchForm
 
     def get_queryset(self):
         form = self.search_form_class(self.request.GET)
-
         if form.is_valid():
             return Lead.objects.filter(
                 Q(id__icontains=form.cleaned_data["search"]) |
@@ -62,8 +61,16 @@ class LeadListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
                 Q(user_agent__icontains=form.cleaned_data["search"]) |
                 Q(referral_source__icontains=form.cleaned_data["search"])
             ).order_by("-created_at")
-        
+
         return Lead.objects.order_by("-created_at")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        leads = self.get_queryset()
+        table = LeadTableAllUsers(leads)
+        RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
+        context["table"] = table
+        return context
 
 
 class LeadDetailView(LoginRequiredMixin, generic.DetailView):
@@ -127,7 +134,7 @@ class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
-        table = LeadTable(leads)
+        table = LeadTableByUser(leads)
         RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
         context["lead_table"] = table
         return context

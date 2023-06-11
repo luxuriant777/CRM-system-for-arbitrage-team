@@ -1,10 +1,12 @@
 import django_tables2 as tables
 from django.utils.html import format_html
 from api_leads.models import Lead
+from django_tables2 import A
 
 
-class LeadTable(tables.Table):
-    id = tables.Column(verbose_name="ID")
+class LeadTableByUser(tables.Table):
+    id = tables.LinkColumn("html_templates:lead-detail", args=[A('id')], verbose_name="ID",
+                           attrs={"a": {"style": "color: blue; text-decoration: underline;"}})
     ip_address = tables.Column(verbose_name="IP Address")
     user_agent = tables.Column(verbose_name="User Agent",
                                attrs={"td": {"style": "max-width: 300px; overflow: hidden; "
@@ -20,3 +22,12 @@ class LeadTable(tables.Table):
 
     def render_user_agent(self, value):
         return format_html('<span title="{}">{}</span>', value, value)
+
+
+class LeadTableAllUsers(LeadTableByUser):
+    user_id = tables.LinkColumn("html_templates:user-detail", args=[A('user_id')], verbose_name="User ID",
+                                attrs={"a": {"style": "color: blue; text-decoration: underline;"}})
+
+    class Meta(LeadTableByUser.Meta):
+        fields = LeadTableByUser.Meta.fields + ("user_id",)
+        attrs = {"class": "table align-items-center mb-0 table-hover"}
