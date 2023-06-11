@@ -9,7 +9,7 @@
     <br>
     <input type="submit" value="Submit" class="btn btn-primary" style="margin-right: 10px;">
     {% if object %}
-    <a href="{% url 'html_templates:lead-detail' pk=task.id %}" class="btn btn-secondary">Cancel</a>
+    <a href="{% url 'html_templates:lead-detail' pk=lead.id %}" class="btn btn-secondary">Cancel</a>
     {% else %}
     <a href="{% url 'html_templates:lead-list' %}" class="btn btn-secondary">Cancel</a>
     {% endif %}
