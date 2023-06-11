@@ -22,7 +22,7 @@ class OrderListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_description="List all users",
+        operation_description="List all orders",
         responses={
             200: OrderListSerializer(many=True),
             401: "Unauthorized",

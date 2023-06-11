@@ -21,7 +21,7 @@ class LeadListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_description="List all users",
+        operation_description="List all leads",
         responses={
             200: LeadSerializer(many=True),
             401: "Unauthorized",
