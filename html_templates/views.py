@@ -10,8 +10,8 @@ from html_templates.forms import LeadSearchForm, CustomUserSearchForm
 from api_users.models import CustomUser
 from api_leads.models import Lead
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
-from .tables import LeadTableByUser
-from .tables import LeadTableAllUsers
+from .tables import LeadTableForCustomUser, CustomUserTable
+from .tables import LeadTableView
 
 
 def index(request):
@@ -67,9 +67,9 @@ class LeadListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         leads = self.get_queryset()
-        table = LeadTableAllUsers(leads)
+        table = LeadTableView(leads)
         RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
-        context["table"] = table
+        context["lead_table"] = table
         return context
 
 
@@ -108,22 +108,30 @@ class LeadDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "crm/lead_confirm_delete.html"
 
 
-class CustomUserListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
+class CustomUserListView(LoginRequiredMixin, SearchFormMixin, SingleTableView):
     model = CustomUser
-    paginate_by = 10
-    template_name = "crm/user_list.html"
     context_object_name = "user_list"
+    table_class = CustomUserTable
+    template_name = "crm/user_list.html"
     search_form_class = CustomUserSearchForm
 
     def get_queryset(self):
         form = self.search_form_class(self.request.GET)
-
         if form.is_valid():
             return CustomUser.objects.filter(
                 Q(first_name__icontains=form.cleaned_data["search"]) |
                 Q(last_name__icontains=form.cleaned_data["search"]) |
                 Q(username__icontains=form.cleaned_data["search"])
             )
+        return CustomUser.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = self.get_queryset()
+        table = CustomUserTable(users)
+        RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
+        context["user_table"] = table
+        return context
 
 
 class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
@@ -134,7 +142,7 @@ class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
-        table = LeadTableByUser(leads)
+        table = LeadTableForCustomUser(leads)
         RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
         context["lead_table"] = table
         return context
