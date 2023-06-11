@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-{% load crispy_forms_filters %}
+{% load bootstrap4 %}
 {% block content %}
-<h1>{{ object|yesno:"Update,Create" }} Lead</h1>
+<br>
+<h3>{{ object|yesno:"Update,Create" }} lead</h3>
 <form action="" method="post" novalidate>
-  {% csrf_token %}
-  {{ form|crispy }}
-  <input type="submit" value="Submit" class="btn btn-primary">
-  {% if object %}
-  <a href="{% url 'html_templates:lead-detail' pk=task.id %}" class="btn btn-secondary">Cancel</a>
-  {% else %}
-  <a href="{% url 'html_templates:lead-list' %}" class="btn btn-secondary">Cancel</a>
-  {% endif %}
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <br>
+    <input type="submit" value="Submit" class="btn btn-primary" style="margin-right: 10px;">
+    {% if object %}
+    <a href="{% url 'html_templates:lead-detail' pk=task.id %}" class="btn btn-secondary">Cancel</a>
+    {% else %}
+    <a href="{% url 'html_templates:lead-list' %}" class="btn btn-secondary">Cancel</a>
+    {% endif %}
 </form>
 {% endblock %}

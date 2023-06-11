@@ -1,70 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container-fluid py-4">
-  <div class="card">
-    <div class="card-body p-3">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="d-flex flex-column h-100">
-            <h3 class="font-weight-bolder">CRM system for arbitrage team</h3>
-            <h5 class="mb-5">With the help of this platform you can manage leads and members of your team.</h5>
-          </div>
-        </div>
-        <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-          <div class="bg-gradient-primary border-radius-lg h-100">
-            {% load static %}
-            <img src="{% static 'assets/img/shapes/waves-white.svg' %}"
-                 class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
-            <div class="position-relative d-flex align-items-center justify-content-center h-100">
-              <img class="w-100 position-relative z-index-2 pt-4"
-                   src="{% static 'assets/img/illustrations/rocket-white.png' %}" alt="rocket">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">&nbsp;
-  </div>
-  <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
+    <div class="card">
         <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Number of users</p>
-                <h5 class="font-weight-bolder mb-0">{{ num_users }}</h5>
-              </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="d-flex flex-column h-100">
+                        <h3 class="font-weight-bolder">CRM system for arbitrage team</h3>
+                        <h5 class="mb-5">With the help of this platform you can manage leads and members of your
+                            team.</h5>
+                    </div>
+                </div>
+                <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                    <div class="bg-gradient-primary border-radius-lg h-100">
+                        {% load static %}
+                        <img src="{% static 'assets/img/shapes/waves-white.svg' %}"
+                             class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
+                        <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                            <img class="w-100 position-relative z-index-2 pt-4"
+                                 src="{% static 'assets/img/illustrations/rocket-white.png' %}" alt="rocket">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Number of Leads</p>
-                <h5 class="font-weight-bolder mb-0">{{ num_leads }}</h5>
-              </div>
+    <div class="row">&nbsp;
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Number of users</p>
+                                <h5 class="font-weight-bolder mb-0">{{ num_users }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Number of Leads</p>
+                                <h5 class="font-weight-bolder mb-0">{{ num_leads }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
