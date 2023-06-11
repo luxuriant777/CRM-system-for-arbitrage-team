@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "bootstrap4",
+    "core",
     "html_templates",
     "api_leads",
     "api_orders",
