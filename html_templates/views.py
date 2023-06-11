@@ -80,7 +80,10 @@ class LeadDetailView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         lead = context["lead"]
-        context["user"] = get_object_or_404(CustomUser, id=lead.user_id)
+        try:
+            context["user"] = CustomUser.objects.get(id=lead.user_id)
+        except CustomUser.DoesNotExist:
+            context["user"] = None
         return context
 
 

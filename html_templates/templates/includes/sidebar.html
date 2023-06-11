@@ -12,7 +12,7 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link {% if 'leads' in segment %} active {% endif %}"
                    href="{% url 'html_templates:lead-list' %}">

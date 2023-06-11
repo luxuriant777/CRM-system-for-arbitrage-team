@@ -18,6 +18,7 @@
                         </div>
                     </div>
                     <div class="row">&nbsp;</div>
+                    {% if user %}
                     <h5 class="font-weight-bolder">User</h5>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -43,7 +44,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if user %}
                                 <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.username }}</td>
@@ -51,11 +51,11 @@
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.position }}</td>
                                 </tr>
-                                {% endif %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
