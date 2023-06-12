@@ -20,6 +20,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
+LOGIN_URL = "/login/"
+
 INSTALLED_APPS = [
     "jet.dashboard",
     "jet",
@@ -30,8 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_tables2",
     "drf_yasg",
     "bootstrap4",
+    "core",
     "html_templates",
     "api_leads",
     "api_orders",
@@ -100,7 +104,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = "api_users.CustomUser"
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -115,7 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
 
 LANGUAGE_CODE = "en-us"
 

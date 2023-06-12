@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Do you want to delete lead?</h1>
-<i>All details of the lead will be lost!</i>
+<br>
+<h3>Do you want to delete lead with ID: {{ lead.id }}?</h3>
+<p>All details related to this lead will be lost!</p>
 <form action="" method="post">
-  {% csrf_token %}
-  <input type="submit" value="Yes" class="btn btn-danger">
-  <a href="{% url 'html_templates:lead-detail' pk=lead.id %}" class="btn btn-secondary">Cancel</a>
+    {% csrf_token %}
+    <input type="submit" value="Yes" class="btn btn-danger">
+    <a href="{% url 'html_templates:lead-detail' pk=lead.id %}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endblock %}

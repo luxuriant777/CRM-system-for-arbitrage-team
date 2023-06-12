@@ -2,22 +2,23 @@
 {% if is_paginated %}
 <div class="container-fluid py-4">
     <div class="col-12">
-      <ul class="pagination">
-        {% if page_obj.has_previous %}
-        <li>
-          <a href="?{% query_transform request page=page_obj.previous_page_number %}"
-             class="page-link text-white bg-dark">prev</a>
-        </li>
-        {% endif %}
-        <li>
-          <span class="page-link text-white bg-secondary">{{ page_obj.number }} of {{ paginator.num_pages }}</span>
-        </li>
-        {% if page_obj.has_next %}
-        <li>
-          <a href="?{% query_transform request page=page_obj.next_page_number %}" class="page-link text-white bg-dark">next</a>
-        </li>
-        {% endif %}
-      </ul>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?{% query_transform request page=page_obj.previous_page_number %}"
+                   class="page-link text-white bg-dark">prev</a>
+            </li>
+            {% endif %}
+            <li>
+                <span class="page-link text-white bg-secondary">{{ page_obj.number }} of {{ paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+            <li>
+                <a href="?{% query_transform request page=page_obj.next_page_number %}"
+                   class="page-link text-white bg-dark">next</a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 </div>
 {% endif %}

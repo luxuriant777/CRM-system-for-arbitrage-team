@@ -4,8 +4,8 @@
 <h3>Do you want to delete user {{ user.first_name }} {{ user.last_name }}?</h3>
 <p>All details related to this user will be lost!</p>
 <form action="" method="post">
-  {% csrf_token %}
-  <input type="submit" value="Yes" class="btn btn-danger">
-  <a href="{% url 'html_templates:user-detail' pk=user.id %}" class="btn btn-secondary">Cancel</a>
+    {% csrf_token %}
+    <input type="submit" value="Yes" class="btn btn-danger">
+    <a href="{% url 'html_templates:user-detail' pk=user.id %}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endblock %}

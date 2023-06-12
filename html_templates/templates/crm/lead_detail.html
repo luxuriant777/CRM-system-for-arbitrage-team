@@ -1,58 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container-fluid py-4">
-  <div class="row">
-    <div class="col-12">
-      <div class="card mb-4">
-        <div class="card-header pb-0">
-          <h3 class="font-weight-bolder">Lead ID: {{ lead.id }}</h3>
-          <a href="{% url 'html_templates:lead-delete' pk=lead.id %}" class="btn btn-danger link-to-page">Delete</a>
-          <a href="{% url 'html_templates:lead-update' pk=lead.id %}" class="btn btn-secondary link-to-page">Update</a>
-          <div class="card">
-            <div class="card-body p-3">
-              <h5 class="font-weight-bolder">Lead Details:</h5>
-              <p class="mb-1 pt-2 text-bold">IP Address: {{ lead.ip_address }}</p>
-              <p class="mb-1 pt-2 text-bold">User Agent: {{ lead.user_agent }}</p>
-              <p class="mb-1 pt-2 text-bold">Referral Source: {{ lead.referral_source }}</p>
-              <p class="mb-1 pt-2 text-bold">Created At: {{ lead.created_at | date:"d M Y, H:i" }}</p>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h3 class="font-weight-bolder">Lead ID: {{ lead.id }}</h3>
+                    <a href="{% url 'html_templates:lead-delete' pk=lead.id %}" class="btn btn-danger link-to-page">Delete</a>
+                    <a href="{% url 'html_templates:lead-update' pk=lead.id %}" class="btn btn-secondary link-to-page">Update</a>
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <h5 class="font-weight-bolder">Lead Details:</h5>
+                            <p class="mb-1 pt-2 text-bold">IP Address: {{ lead.ip_address }}</p>
+                            <p class="mb-1 pt-2 text-bold">User Agent: {{ lead.user_agent }}</p>
+                            <p class="mb-1 pt-2 text-bold">Referral Source: {{ lead.referral_source }}</p>
+                            <p class="mb-1 pt-2 text-bold">Created At: {{ lead.created_at | date:"d M Y, H:i" }}</p>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    {% if user %}
+                    <h5 class="font-weight-bolder">User</h5>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0 table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Username
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        First
+                                        name
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Last
+                                        name
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Position
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.last_name }}</td>
+                                    <td>{{ user.position }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-          <div class="row">&nbsp;</div>
-          <h5 class="font-weight-bolder">User</h5>
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <table class="table align-items-center mb-0 table-hover">
-                <thead>
-                <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First
-                    name
-                  </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last
-                    name
-                  </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Position
-                  </th>
-                </tr>
-                </thead>
-                  <tbody>
-                  {% if user %}
-                  <tr onclick="window.location='{% url 'html_templates:user-detail' pk=user.id %}'">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.position }}</td>
-                  </tr>
-                  {% endif %}
-                  </tbody>
-              </table>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock %}

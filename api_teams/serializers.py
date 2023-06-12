@@ -1,23 +1,20 @@
 from rest_framework import serializers
 
-from api_users.models import Position
-from api_users.serializers import CustomUserSerializer
+from api_users.models import Position, CustomUser
 from .models import Team
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    members = CustomUserSerializer(many=True, read_only=True)
+    members = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.filter(position=Position.BUYER),
+                                                 required=False)
     creator = serializers.ReadOnlyField(source="creator.id")
 
     class Meta:
         model = Team
         fields = ["id", "name", "team_lead", "members", "creator"]
 
-    def save(self, **kwargs):
-        members = self.validated_data.pop("members", [])
-        team = super().save(**kwargs)
+    def validate_members(self, members):
         for member in members:
-            if member.position != Position.BUYER or member.team_member.count() > 1:
-                raise serializers.ValidationError("A buyer can only be a member of one team.")
-            team.members.add(member)
-        return team
+            if member.team_member.count() > 0:
+                raise serializers.ValidationError(f"A Buyer with id {member.id} can only be a member of one team.")
+        return members
