@@ -1,5 +1,5 @@
 # Introduction
-This project introduces a CRM system for arbitrage teams. Among notable features are:
+This project introduces a CRM system specifically designed for traffic arbitrage teams. Notable features include:
 1. `Leads` tracking and management: `leads` are virtual entities with user details, like `User-Agent`, `IP`, `Referrer`.
    They simulate the tracking of a user's journey to a specific landing page. Currently, they are gathered as a simple
    `post` requests, but this functionality will be adjusted to tracking of `get` requests through the small tracking
