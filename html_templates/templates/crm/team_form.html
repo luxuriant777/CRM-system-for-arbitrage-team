@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+<br>
+<h3>{{ object|yesno:"Update,Create" }} team</h3>
+<form action="" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <br>
+    <input type="submit" value="Submit" class="btn btn-primary" style="margin-right: 10px;">
+    {% if object %}
+    <a href="{% url 'html_templates:team-detail' pk=team.id %}" class="btn btn-secondary">Cancel</a>
+    {% else %}
+    <a href="{% url 'html_templates:team-list' %}" class="btn btn-secondary">Cancel</a>
+    {% endif %}
+</form>
+{% endblock %}

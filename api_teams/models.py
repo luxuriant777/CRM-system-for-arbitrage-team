@@ -1,7 +1,5 @@
 from django.db import models
-from django.db.models import Count
 from api_users.models import CustomUser, Position
-from django.core.exceptions import ValidationError
 
 
 class Team(models.Model):
@@ -19,11 +17,7 @@ class Team(models.Model):
         related_name="team_member",
         blank=True,
     )
-    creator = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name="team_creator"
-    )
+    image = models.ImageField(upload_to="team_images", default="team_images/default.jpg", null=True, blank=True)
 
     class Meta:
         ordering = ["name"]

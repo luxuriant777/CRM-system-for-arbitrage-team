@@ -29,6 +29,15 @@ class CustomUserUpdateForm(forms.ModelForm):
         fields = ["username", "first_name", "last_name", "email", "position", "image"]
 
 
+class TeamSearchForm(forms.Form):
+    search = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by teams"}),
+    )
+
+
 class LeadSearchForm(forms.Form):
     search = forms.CharField(
         max_length=255,

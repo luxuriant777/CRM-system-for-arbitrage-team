@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
         choices=Position.choices,
         default=Position.BUYER,
     )
-    image = models.ImageField(upload_to="profile_images", default="profile_images/default.jpg", null=True, blank=True)
+    image = models.ImageField(upload_to="user_images", default="user_images/default.jpg", null=True, blank=True)
 
     class Meta:
         ordering = ["username"]
