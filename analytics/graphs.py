@@ -137,7 +137,7 @@ teamlead_app.layout = html.Div(children=[date_picker, teamlead_graph])
 buyer_app.layout = html.Div(children=[date_picker, buyer_graph])
 lead_app.layout = html.Div(children=[date_picker, lead_graph])
 team_app.layout = html.Div([
-    html.Div([dropdown]),
+    html.Div([dropdown], style={"marginBottom": "14px"}),
     html.Div([team_chart])
 ])
 
