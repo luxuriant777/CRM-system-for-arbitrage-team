@@ -105,14 +105,24 @@ def get_team_members():
     return pd.DataFrame.from_records(team_members_qs)
 
 def create_graphs():
-    today = datetime.datetime.now()
-    start_of_week = today - datetime.timedelta(days=today.weekday())
-    end_of_week = start_of_week + datetime.timedelta(days=6)
+    # today = datetime.datetime.now()
+    # start_of_week = today - datetime.timedelta(days=today.weekday())
+    # end_of_week = start_of_week + datetime.timedelta(days=6)
+
+    # date_picker = dcc.DatePickerRange(
+    #     id="date-picker-range",
+    #     start_date=start_of_week.date(),
+    #     end_date=end_of_week.date(),
+    # )
+
+    now = datetime.datetime.now()
+    start_of_day = now - datetime.timedelta(days=1)
+    end_of_day = now + datetime.timedelta(days=1)
 
     date_picker = dcc.DatePickerRange(
         id="date-picker-range",
-        start_date=start_of_week.date(),
-        end_date=end_of_week.date(),
+        start_date=start_of_day.date(),
+        end_date=end_of_day.date(),
     )
 
     team_lead_graph = dcc.Graph(id="team-lead-graph")

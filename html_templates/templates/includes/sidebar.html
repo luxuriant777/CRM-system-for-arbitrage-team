@@ -1,65 +1,63 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+<aside class="navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
     <br>
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'html_templates:index' %}">
-                    <i class="bi bi-house-fill"></i>
-                    <span class="ms-1 font-weight-bold">Home</span>
-                </a>
-            </li>
-            {% if request.user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link {% if 'orders' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:prospect-list' %}">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'prospects' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:prospect-list' %}">
-                    <i class="bi bi-eye-fill"></i>
-                    <span class="nav-link-text ms-1">Prospects</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'teams' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:team-list' %}">
-                    <i class="bi bi-people-fill"></i>
-                    <span class="nav-link-text ms-1">Teams</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'users' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:user-list' %}">
-                    <i class="bi bi-person-fill"></i>
-                    <span class="nav-link-text ms-1">Users</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'index' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:user-detail' pk=request.user.id %}">
-                    <i class="bi bi-person-circle"></i>
-                    <span class="nav-link-text ms-1">{{ request.user.get_username }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'logout' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:logout' %}">
-                    <i class="bi bi-door-open-fill"></i>
-                    <span class="nav-link-text ms-1">Logout</span>
-                </a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link {% if 'login' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:login' %}">
-                    <i class="bi bi-door-closed-fill"></i>
-                    <span class="nav-link-text ms-1">Login</span>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'html_templates:index' %}">
+                <i class="bi bi-house-fill"></i>
+                <span class="ms-1 font-weight-bold">Home</span>
+            </a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link {% if 'orders' in segment %} active {% endif %}"
+               href="{% url 'html_templates:prospect-list' %}">
+                <i class="bi bi-check-circle-fill"></i>
+                <span class="nav-link-text ms-1">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'prospects' in segment %} active {% endif %}"
+               href="{% url 'html_templates:prospect-list' %}">
+                <i class="bi bi-eye-fill"></i>
+                <span class="nav-link-text ms-1">Prospects</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'teams' in segment %} active {% endif %}"
+               href="{% url 'html_templates:team-list' %}">
+                <i class="bi bi-people-fill"></i>
+                <span class="nav-link-text ms-1">Teams</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'users' in segment %} active {% endif %}"
+               href="{% url 'html_templates:user-list' %}">
+                <i class="bi bi-person-fill"></i>
+                <span class="nav-link-text ms-1">Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'index' in segment %} active {% endif %}"
+               href="{% url 'html_templates:user-detail' pk=request.user.id %}">
+                <i class="bi bi-person-circle"></i>
+                <span class="nav-link-text ms-1">{{ request.user.get_username }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'logout' in segment %} active {% endif %}"
+               href="{% url 'html_templates:logout' %}">
+                <i class="bi bi-door-open-fill"></i>
+                <span class="nav-link-text ms-1">Logout</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link {% if 'login' in segment %} active {% endif %}"
+               href="{% url 'html_templates:login' %}">
+                <i class="bi bi-door-closed-fill"></i>
+                <span class="nav-link-text ms-1">Login</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
 </aside>
