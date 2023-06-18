@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -13,6 +14,7 @@ from api_leads.models import Lead
 from .tables import TeamTableView, LeadTableView, LeadTableForCustomUser, CustomUserTable
 
 
+@login_required
 def index(request):
     return render(request, "crm/index.html")
 
