@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Order(models.Model):
-    lead_id = models.IntegerField(default=0)
+    prospect_id = models.IntegerField(default=0)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50)

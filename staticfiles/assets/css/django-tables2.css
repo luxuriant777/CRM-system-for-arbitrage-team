@@ -1,3 +1,7 @@
+table td, table th {
+    text-align: center;
+}
+
 /* Add some top margin to the pagination block */
 nav[aria-label="Table navigation"] {
     margin-top: 20px;

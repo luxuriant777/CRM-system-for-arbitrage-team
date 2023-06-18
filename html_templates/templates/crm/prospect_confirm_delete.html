@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<h3>Do you want to delete prospect with ID: {{ prospect.id }}?</h3>
+<p>All details related to this prospect will be lost!</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Yes" class="btn btn-danger">
+    <a href="{% url 'html_templates:prospect-detail' pk=prospect.id %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

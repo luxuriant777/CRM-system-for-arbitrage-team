@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load django_tables2 %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h3>Prospect List</h3>
+                    <a href="{% url 'html_templates:prospect-create' %}" class="btn btn-primary link-to-page">Create</a>
+                    {% block search_form %}
+                    {% include "includes/search_form.html" %}
+                    {% endblock %}
+                    {% if prospect_list %}
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            {% render_table prospect_table %}
+                            {% else %}
+                            <p>There are no prospects.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Order",
+            name="Prospect",
             fields=[
                 (
                     "id",
@@ -21,13 +21,11 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("prospect_id", models.IntegerField(default=0)),
-                ("email", models.EmailField(max_length=254)),
-                ("phone_number", models.CharField(max_length=20)),
-                ("first_name", models.CharField(max_length=50)),
-                ("last_name", models.CharField(max_length=50)),
-                ("delivery_address", models.TextField()),
+                ("ip_address", models.GenericIPAddressField()),
+                ("user_agent", models.CharField(max_length=255)),
+                ("referral_source", models.CharField(max_length=255)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("user_id", models.IntegerField(default=1)),
             ],
         ),
     ]

@@ -1,40 +1,31 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django_tables2 import RequestConfig, SingleTableView, LazyPaginator
+from django_tables2 import RequestConfig, SingleTableView
 
-from html_templates.forms import LeadSearchForm, CustomUserSearchForm
-from api_users.models import CustomUser
-from api_leads.models import Lead
-from .forms import CustomUserCreationForm, CustomUserUpdateForm
-from .tables import LeadTableForCustomUser, CustomUserTable
-from .tables import LeadTableView
+from analytics.graphs import create_graphs
+from api_teams.models import Team
+from .forms import TeamSearchForm, ProspectSearchForm, CustomUserSearchForm, CustomUserCreationForm, CustomUserUpdateForm
+from api_users.models import CustomUser, Position
+from api_prospects.models import Prospect
+from .tables import TeamTableView, ProspectTableView, ProspectTableForCustomUser, CustomUserTable
 
 
+@login_required
 def index(request):
-    num_users = CustomUser.objects.count()
-    num_leads = Lead.objects.count()
-
-    context = {
-        "num_users": num_users,
-        "num_leads": num_leads,
-    }
-
-    return render(request, "crm/index.html", context=context)
-
+    return render(request, "crm/index.html")
 
 class UserMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
+        prospects = Prospect.objects.filter(user_id=user.id).order_by("-created_at")
         context["user"] = user
-        context["leads"] = leads
+        context["prospects"] = prospects
         return context
-
 
 class SearchFormMixin:
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -45,71 +36,128 @@ class SearchFormMixin:
 
         return context
 
+class TeamListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
+    model = Team
+    context_object_name = "team_list"
+    template_name = "crm/team_list.html"
+    search_form_class = TeamSearchForm
 
-class LeadListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
-    model = Lead
-    context_object_name = "lead_list"
-    template_name = "crm/lead_list.html"
-    search_form_class = LeadSearchForm
+    def get_queryset(self):
+        form = self.search_form_class(self.request.GET)
+        if form.is_valid() and form.cleaned_data["search"]:
+            search_term = form.cleaned_data["search"]
+            return Team.objects.filter(
+                Q(name__icontains=search_term) |
+                Q(team_lead__username__icontains=search_term) |
+                Q(team_lead__first_name__icontains=search_term) |
+                Q(team_lead__last_name__icontains=search_term)
+            )
+        return Team.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teams = self.get_queryset()
+        table = TeamTableView(teams)
+        RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
+        context["team_table"] = table
+        return context
+
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Team
+    template_name = "crm/team_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        team = self.get_object()
+        context["team_members"] = team.members.all()
+        context["team_lead"] = team.team_lead
+        context["member_table"] = CustomUserTable(team.members.all())
+        return context
+
+class TeamCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Team
+    fields = "__all__"
+    success_url = reverse_lazy("html_templates:team-list")
+    template_name = "crm/team_form.html"
+
+class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+    fields = "__all__"
+    template_name = "crm/team_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "html_templates:team-detail", kwargs={"pk": self.object.pk}
+        )
+
+class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Team
+    success_url = reverse_lazy("html_templates:team-list")
+    template_name = "crm/team_confirm_delete.html"
+
+class ProspectListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
+    model = Prospect
+    context_object_name = "prospect_list"
+    template_name = "crm/prospect_list.html"
+    search_form_class = ProspectSearchForm
 
     def get_queryset(self):
         form = self.search_form_class(self.request.GET)
         if form.is_valid():
-            return Lead.objects.filter(
+            return Prospect.objects.filter(
                 Q(id__icontains=form.cleaned_data["search"]) |
                 Q(ip_address__icontains=form.cleaned_data["search"]) |
                 Q(user_agent__icontains=form.cleaned_data["search"]) |
                 Q(referral_source__icontains=form.cleaned_data["search"])
             ).order_by("-created_at")
 
-        return Lead.objects.order_by("-created_at")
+        return Prospect.objects.order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        leads = self.get_queryset()
-        table = LeadTableView(leads)
+        prospects = self.get_queryset()
+        table = ProspectTableView(prospects)
         RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
-        context["lead_table"] = table
+        context["prospect_table"] = table
         return context
 
-
-class LeadDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Lead
-    template_name = "crm/lead_detail.html"
+class ProspectDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Prospect
+    template_name = "crm/prospect_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        lead = context["lead"]
+        prospect = self.get_object()
         try:
-            context["user"] = CustomUser.objects.get(id=lead.user_id)
+            user = CustomUser.objects.get(id=prospect.user_id)
         except CustomUser.DoesNotExist:
-            context["user"] = None
+            user = None
+        context["user"] = user
+        if user:
+            context["user_table"] = CustomUserTable([user])
         return context
 
-
-class LeadCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Lead
+class ProspectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Prospect
     fields = "__all__"
-    success_url = reverse_lazy("html_templates:lead-list")
-    template_name = "crm/lead_form.html"
+    success_url = reverse_lazy("html_templates:prospect-list")
+    template_name = "crm/prospect_form.html"
 
 
-class LeadUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = Lead
+class ProspectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Prospect
     fields = "__all__"
-    template_name = "crm/lead_form.html"
+    template_name = "crm/prospect_form.html"
 
     def get_success_url(self):
         return reverse_lazy(
-            "html_templates:lead-detail", kwargs={"pk": self.object.pk}
+            "html_templates:prospect-detail", kwargs={"pk": self.object.pk}
         )
 
-
-class LeadDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Lead
-    success_url = reverse_lazy("html_templates:lead-list")
-    template_name = "crm/lead_confirm_delete.html"
-
+class ProspectDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Prospect
+    success_url = reverse_lazy("html_templates:prospect-list")
+    template_name = "crm/prospect_confirm_delete.html"
 
 class CustomUserListView(LoginRequiredMixin, SearchFormMixin, SingleTableView):
     model = CustomUser
@@ -136,7 +184,6 @@ class CustomUserListView(LoginRequiredMixin, SearchFormMixin, SingleTableView):
         context["user_table"] = table
         return context
 
-
 class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
     model = CustomUser
     template_name = "crm/user_detail.html"
@@ -144,12 +191,11 @@ class CustomUserDetailView(LoginRequiredMixin, UserMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        leads = Lead.objects.filter(user_id=user.id).order_by("-created_at")
-        table = LeadTableForCustomUser(leads)
+        prospects = Prospect.objects.filter(user_id=user.id).order_by("-created_at")
+        table = ProspectTableForCustomUser(prospects)
         RequestConfig(self.request, paginate={"per_page": 10}).configure(table)
-        context["lead_table"] = table
+        context["prospect_table"] = table
         return context
-
 
 class CustomUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = CustomUser
@@ -157,25 +203,13 @@ class CustomUserCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_form.html"
 
-
 class CustomUserUpdateView(LoginRequiredMixin, UserMixin, generic.UpdateView):
     model = CustomUser
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_form.html"
 
-
 class CustomUserDeleteView(LoginRequiredMixin, UserMixin, generic.DeleteView):
     model = CustomUser
     success_url = reverse_lazy("html_templates:user-list")
     template_name = "crm/user_confirm_delete.html"
-
-
-@login_required
-def toggle_lead_assign(request, pk):
-    user = request.user
-    if Lead.objects.get(id=pk) in user.leads.all():
-        user.leads.remove(pk)
-    else:
-        user.leads.add(pk)
-    return redirect("html_templates:lead-detail", pk=pk)

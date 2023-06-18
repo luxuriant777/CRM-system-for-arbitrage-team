@@ -7,11 +7,10 @@ from .models import Team
 class TeamSerializer(serializers.ModelSerializer):
     members = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.filter(position=Position.BUYER),
                                                  required=False)
-    creator = serializers.ReadOnlyField(source="creator.id")
 
     class Meta:
         model = Team
-        fields = ["id", "name", "team_lead", "members", "creator"]
+        fields = ["id", "name", "team_lead", "members"]
 
     def validate_members(self, members):
         for member in members:
