@@ -47,9 +47,6 @@ class TeamCreateView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-
 
 class TeamListView(generics.ListAPIView):
     queryset = Team.objects.all()

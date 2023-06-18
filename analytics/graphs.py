@@ -17,7 +17,11 @@ prospect_app = DjangoDash("ProspectApp")
 team_app = DjangoDash("TeamApp")
 
 def fetch_data(obj, attribute, position=None):
-    data = obj.annotate(attribute=attribute("created_at"))
+    if isinstance(obj.first(), CustomUser):
+        data = obj.annotate(attribute=attribute("date_joined"))
+    else:
+        data = obj.annotate(attribute=attribute("created_at"))
+
     if position is not None:
         data = data.filter(position=position)
     data = data.values("attribute").annotate(c=Count("id")).values("attribute", "c")
