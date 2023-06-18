@@ -17,6 +17,7 @@ class Team(models.Model):
         related_name="team_member",
         blank=True,
     )
+    created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to="team_images", default="team_images/default.jpg", null=True, blank=True)
 
     class Meta:

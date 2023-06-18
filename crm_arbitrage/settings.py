@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django_tables2",
     "drf_yasg",
     "bootstrap4",
+    "django_plotly_dash.apps.DjangoPlotlyDashConfig",
     "core",
     "html_templates",
     "api_leads",
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_plotly_dash.middleware.BaseMiddleware",
 ]
 
 ROOT_URLCONF = "crm_arbitrage.urls"
@@ -101,6 +103,15 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+PLOTLY_COMPONENTS = [
+    "dash_core_components",
+    "dash_html_components",
+    "dash_renderer",
+    "dpd_components"
+]
 
 AUTH_USER_MODEL = "api_users.CustomUser"
 

@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django_tables2 import RequestConfig, SingleTableView
 
+from analytics.graphs import create_graphs
 from api_teams.models import Team
 from .forms import TeamSearchForm, LeadSearchForm, CustomUserSearchForm, CustomUserCreationForm, CustomUserUpdateForm
 from api_users.models import CustomUser, Position
@@ -13,17 +14,7 @@ from .tables import TeamTableView, LeadTableView, LeadTableForCustomUser, Custom
 
 
 def index(request):
-    num_users = CustomUser.objects.count()
-    num_leads = Lead.objects.count()
-    num_teams = Team.objects.count()
-
-    context = {
-        "num_users": num_users,
-        "num_leads": num_leads,
-        "num_teams": num_teams,
-    }
-
-    return render(request, "crm/index.html", context=context)
+    return render(request, "crm/index.html")
 
 class UserMixin:
     def get_context_data(self, **kwargs):

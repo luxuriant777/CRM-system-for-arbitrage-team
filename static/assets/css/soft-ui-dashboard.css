@@ -469,10 +469,6 @@ output {
   display: inline-block;
 }
 
-iframe {
-  border: 0;
-}
-
 summary {
   display: list-item;
   cursor: pointer;
