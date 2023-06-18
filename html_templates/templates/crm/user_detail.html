@@ -16,7 +16,7 @@
                                         <p class="mb-1 pt-2 text-bold">First name: {{ user.first_name }}</p>
                                         <p class="mb-1 pt-2 text-bold">Last name: {{ user.last_name }}</p>
                                         <p class="mb-1 pt-2 text-bold">Position: {{ user.position }}</p>
-                                        <p class="mb-1 pt-2 text-bold">Joined the team on: {{ user.date_joined | date:"d M Y, H:i" }}</p>
+                                        <p class="mb-1 pt-2 text-bold">Registered on: {{ user.created_at | date:"d M Y, H:i" }}</p>
                                         <p class="mb-1 pt-2 text-bold">Last login on: {{ user.last_login | date:"d M Y, H:i" }}</p>
                                         <br>
                                         <div class="d-flex mt-auto">

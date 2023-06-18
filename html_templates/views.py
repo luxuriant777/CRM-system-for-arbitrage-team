@@ -48,6 +48,7 @@ class TeamListView(LoginRequiredMixin, SearchFormMixin, generic.ListView):
             search_term = form.cleaned_data["search"]
             return Team.objects.filter(
                 Q(name__icontains=search_term) |
+                Q(team_lead__username__icontains=search_term) |
                 Q(team_lead__first_name__icontains=search_term) |
                 Q(team_lead__last_name__icontains=search_term)
             )
