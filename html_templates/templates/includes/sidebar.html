@@ -10,17 +10,24 @@
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
+                <a class="nav-link {% if 'orders' in segment %} active {% endif %}"
+                   href="{% url 'html_templates:prospect-list' %}">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span class="nav-link-text ms-1">Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'prospects' in segment %} active {% endif %}"
+                   href="{% url 'html_templates:prospect-list' %}">
+                    <i class="bi bi-eye-fill"></i>
+                    <span class="nav-link-text ms-1">Prospects</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if 'teams' in segment %} active {% endif %}"
                    href="{% url 'html_templates:team-list' %}">
                     <i class="bi bi-people-fill"></i>
                     <span class="nav-link-text ms-1">Teams</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'leads' in segment %} active {% endif %}"
-                   href="{% url 'html_templates:lead-list' %}">
-                    <i class="bi bi-person-lines-fill"></i>
-                    <span class="nav-link-text ms-1">Leads</span>
                 </a>
             </li>
             <li class="nav-item">

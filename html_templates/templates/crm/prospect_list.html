@@ -7,17 +7,17 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h3>Lead List</h3>
-                    <a href="{% url 'html_templates:lead-create' %}" class="btn btn-primary link-to-page">Create</a>
+                    <h3>Prospect List</h3>
+                    <a href="{% url 'html_templates:prospect-create' %}" class="btn btn-primary link-to-page">Create</a>
                     {% block search_form %}
                     {% include "includes/search_form.html" %}
                     {% endblock %}
-                    {% if lead_list %}
+                    {% if prospect_list %}
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            {% render_table lead_table %}
+                            {% render_table prospect_table %}
                             {% else %}
-                            <p>There are no leads.</p>
+                            <p>There are no prospects.</p>
                             {% endif %}
                         </div>
                     </div>

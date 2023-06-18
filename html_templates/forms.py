@@ -38,12 +38,12 @@ class TeamSearchForm(forms.Form):
     )
 
 
-class LeadSearchForm(forms.Form):
+class ProspectSearchForm(forms.Form):
     search = forms.CharField(
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by leads"}),
+        widget=forms.TextInput(attrs={"placeholder": "Search by prospects"}),
     )
 
 

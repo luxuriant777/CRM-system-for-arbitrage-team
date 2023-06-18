@@ -8,16 +8,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         buyer_permissions = [
-            "view_lead", 
+            "view_prospect", 
             "view_order", 
             "view_team"
         ]
         
         team_lead_permissions = [
-            "view_lead", 
-            "add_lead", 
-            "change_lead", 
-            "delete_lead", 
+            "view_prospect", 
+            "add_prospect",
+            "change_prospect",
+            "delete_prospect",
             "view_order", 
             "add_order", 
             "change_order", 

@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django_tables2 import A
 from django.utils.html import format_html
-from api_leads.models import Lead
+from api_prospects.models import Prospect
 from api_teams.models import Team
 from api_users.models import CustomUser
 
@@ -20,8 +20,8 @@ class TeamTableView(tables.Table):
         attrs = {"class": "table align-items-center mb-0 table-hover"}
 
 
-class LeadTableForCustomUser(tables.Table):
-    id = tables.LinkColumn("html_templates:lead-detail", args=[A('id')], verbose_name="ID",
+class ProspectTableForCustomUser(tables.Table):
+    id = tables.LinkColumn("html_templates:prospect-detail", args=[A('id')], verbose_name="ID",
                            attrs={"a": {"style": "color: blue; text-decoration: underline;"}})
     ip_address = tables.Column(verbose_name="IP Address")
     user_agent = tables.Column(verbose_name="User Agent",
@@ -31,7 +31,7 @@ class LeadTableForCustomUser(tables.Table):
     created_at = tables.Column(verbose_name="Created At")
 
     class Meta:
-        model = Lead
+        model = Prospect
         template_name = "django_tables2/bootstrap4.html"
         fields = ("id", "ip_address", "user_agent", "referral_source", "created_at")
         attrs = {"class": "table align-items-center mb-0 table-hover"}
@@ -40,12 +40,12 @@ class LeadTableForCustomUser(tables.Table):
         return format_html('<span title="{}">{}</span>', value, value)
 
 
-class LeadTableView(LeadTableForCustomUser):
+class ProspectTableView(ProspectTableForCustomUser):
     user_id = tables.LinkColumn("html_templates:user-detail", args=[A('user_id')], verbose_name="User ID",
                                 attrs={"a": {"style": "color: blue; text-decoration: underline;"}})
 
-    class Meta(LeadTableForCustomUser.Meta):
-        fields = LeadTableForCustomUser.Meta.fields + ("user_id",)
+    class Meta(ProspectTableForCustomUser.Meta):
+        fields = ProspectTableForCustomUser.Meta.fields + ("user_id",)
         attrs = {"class": "table align-items-center mb-0 table-hover"}
 
 class CustomUserTable(tables.Table):

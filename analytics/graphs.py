@@ -7,13 +7,13 @@ from django.db.models import Count
 from django.db.models.functions import TruncDay, TruncHour
 from django_plotly_dash import DjangoDash
 from api_users.models import CustomUser, Position
-from api_leads.models import Lead
+from api_prospects.models import Prospect
 from api_teams.models import Team
 
 
-teamlead_app = DjangoDash("TeamleadApp")
+team_lead_app = DjangoDash("TeamLeadApp")
 buyer_app = DjangoDash("BuyerApp")
-lead_app = DjangoDash("LeadApp")
+prospect_app = DjangoDash("ProspectApp")
 team_app = DjangoDash("TeamApp")
 
 def fetch_data(obj, attribute, position=None):
@@ -84,17 +84,17 @@ def generate_bar_chart_v2(df, x_col, y_col, title):
         )
     }
 
-def get_leads_generated_by_each_team():
-    leads_df = pd.DataFrame(list(Lead.objects.values()))
+def get_prospects_generated_by_each_team():
+    prospects_df = pd.DataFrame(list(Prospect.objects.values()))
     users_df = pd.DataFrame(list(CustomUser.objects.values()))
-    leads_users_df = pd.merge(leads_df, users_df, left_on="user_id", right_on="id", suffixes=("_lead", "_user"))
+    prospects_users_df = pd.merge(prospects_df, users_df, left_on="user_id", right_on="id", suffixes=("_prospect", "_user"))
     teams_df = pd.DataFrame(list(Team.objects.values("id", "name")))
     team_members_df = pd.DataFrame(list(Team.members.through.objects.values("customuser_id", "team_id")))
-    leads_teams_rel_df = pd.merge(leads_users_df, team_members_df, left_on="id_user", right_on="customuser_id")
-    leads_teams_name_df = pd.merge(leads_teams_rel_df, teams_df, left_on="team_id", right_on="id")
-    team_leads_count = leads_teams_name_df.groupby("name")["id_lead"].count().reset_index().rename(
-        columns={"id_lead": "leads_count", "name": "team_name"})
-    return team_leads_count
+    prospects_teams_rel_df = pd.merge(prospects_users_df, team_members_df, left_on="id_user", right_on="customuser_id")
+    prospects_teams_name_df = pd.merge(prospects_teams_rel_df, teams_df, left_on="team_id", right_on="id")
+    team_prospects_count = prospects_teams_name_df.groupby("name")["id_prospect"].count().reset_index().rename(
+        columns={"id_prospect": "prospects_count", "name": "team_name"})
+    return team_prospects_count
 
 def get_team_members():
     team_members_qs = Team.objects.annotate(c=Count("members")).values("name", "c")
@@ -111,9 +111,9 @@ def create_graphs():
         end_date=end_of_week.date(),
     )
 
-    teamlead_graph = dcc.Graph(id="teamlead-graph")
+    team_lead_graph = dcc.Graph(id="team-lead-graph")
     buyer_graph = dcc.Graph(id="buyer-graph")
-    lead_graph = dcc.Graph(id="lead-graph")
+    prospect_graph = dcc.Graph(id="prospect-graph")
     team_chart = dcc.Graph(id="team-chart")
 
     dropdown = html.Div(
@@ -121,7 +121,7 @@ def create_graphs():
             id="team-dropdown",
             options=[
                 {"label": "Members Count", "value": "mc"},
-                {"label": "Leads Count", "value": "lc"}
+                {"label": "Prospects Count", "value": "pc"}
             ],
             value="mc",
             style={"width": "230px", "fontSize": "25px"}
@@ -129,13 +129,13 @@ def create_graphs():
         style={"display": "flex", "alignItems": "center"}
     )
 
-    return date_picker, teamlead_graph, buyer_graph, lead_graph, dropdown, team_chart
+    return date_picker, team_lead_graph, buyer_graph, prospect_graph, dropdown, team_chart
 
-date_picker, teamlead_graph, buyer_graph, lead_graph, dropdown, team_chart = create_graphs()
+date_picker, team_lead_graph, buyer_graph, prospect_graph, dropdown, team_chart = create_graphs()
 
-teamlead_app.layout = html.Div(children=[date_picker, teamlead_graph])
+team_lead_app.layout = html.Div(children=[date_picker, team_lead_graph])
 buyer_app.layout = html.Div(children=[date_picker, buyer_graph])
-lead_app.layout = html.Div(children=[date_picker, lead_graph])
+prospect_app.layout = html.Div(children=[date_picker, prospect_graph])
 team_app.layout = html.Div([
     html.Div([dropdown], style={"marginBottom": "14px"}),
     html.Div([team_chart])
@@ -156,12 +156,12 @@ def create_graph_callback(output_id, model, obj, position, color, title, hoverte
         df = df[(df[df.columns[0]] > start_date) & (df[df.columns[0]] < end_date)]
         return generate_figure(df, color, title, hovertemplate + "<extra></extra>")
 
-create_graph_callback("teamlead-graph", teamlead_app, CustomUser.objects, Position.TEAM_LEAD,
-                      "rgba(0, 123, 255, 1)", "Teamleads", "Date: %{x}<br>Number of teamleads: %{y}")
+create_graph_callback("team-lead-graph", team_lead_app, CustomUser.objects, Position.TEAM_LEAD,
+                      "rgba(0, 123, 255, 1)", "Team Leads", "Date: %{x}<br>Number of Team Leads: %{y}")
 create_graph_callback("buyer-graph", buyer_app, CustomUser.objects, Position.BUYER,
-                      "rgba(40, 167, 69, 1)", "Buyers", "Date: %{x}<br>Number of buyers: %{y}")
-create_graph_callback("lead-graph", lead_app, Lead.objects, None,
-                      "rgba(153, 102, 255, 1)", "Leads", "Date: %{x}<br>Number of leads: %{y}")
+                      "rgba(40, 167, 69, 1)", "Buyers", "Date: %{x}<br>Number of Buyers: %{y}")
+create_graph_callback("prospect-graph", prospect_app, Prospect.objects, None,
+                      "rgba(153, 102, 255, 1)", "Prospects", "Date: %{x}<br>Number of Prospects: %{y}")
 
 @team_app.callback(
     Output("team-chart", "figure"),
@@ -171,6 +171,6 @@ def update_team_chart(value):
     if value == "mc":
         team_members_df = get_team_members()
         return generate_bar_chart_v2(team_members_df, "name", "c", "Number of Team Members")
-    elif value == "lc":
-        team_leads_df = get_leads_generated_by_each_team()
-        return generate_bar_chart_v2(team_leads_df, "team_name", "leads_count", "Number of Leads generated by each Team")
+    elif value == "pc":
+        team_prospects_df = get_prospects_generated_by_each_team()
+        return generate_bar_chart_v2(team_prospects_df, "team_name", "prospects_count", "Number of Prospects generated by each Team")

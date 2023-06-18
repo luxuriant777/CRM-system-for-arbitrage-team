@@ -1,48 +1,48 @@
 from rest_framework import serializers
-from api_leads.serializers import LeadSerializer
+from api_prospects.serializers import ProspectSerializer
 from .models import Order
-from api_leads.models import Lead
+from api_prospects.models import Prospect
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    lead = serializers.SerializerMethodField()
+    prospect = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = "__all__"
 
-    def get_lead(self, obj):
-        lead_id = obj.get("lead_id")
-        lead = Lead.objects.get(id=lead_id)
-        return LeadSerializer(lead).data
+    def get_prospect(self, obj):
+        prospect_id = obj.get("prospect_id")
+        prospect = Prospect.objects.get(id=prospect_id)
+        return ProspectSerializer(prospect).data
 
     def validate(self, data):
-        lead_id = data.get("lead_id")
-        if not Lead.objects.filter(id=lead_id).exists():
-            raise serializers.ValidationError({"lead_id": "Order with the provided 'lead_id' does not exist."})
+        prospect_id = data.get("prospect_id")
+        if not Prospect.objects.filter(id=prospect_id).exists():
+            raise serializers.ValidationError({"prospect_id": "Order with the provided 'prospect_id' does not exist."})
         return data
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        lead_data = representation.pop("lead")
-        representation["lead"] = lead_data
+        prospect_data = representation.pop("prospect")
+        representation["prospect"] = prospect_data
         return representation
 
 
 class OrderListSerializer(serializers.ModelSerializer):
-    lead = serializers.SerializerMethodField()
+    prospect = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = "__all__"
 
-    def get_lead(self, obj):
-        lead_id = obj.lead_id
-        lead = Lead.objects.get(id=lead_id)
-        return LeadSerializer(lead).data
+    def get_prospect(self, obj):
+        prospect_id = obj.prospect_id
+        prospect = Prospect.objects.get(id=prospect_id)
+        return ProspectSerializer(prospect).data
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        lead_data = representation.pop("lead")
-        representation["lead"] = lead_data
+        prospect_data = representation.pop("prospect")
+        representation["prospect"] = prospect_data
         return representation

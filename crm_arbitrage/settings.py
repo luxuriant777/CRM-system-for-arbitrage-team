@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django_plotly_dash.apps.DjangoPlotlyDashConfig",
     "core",
     "html_templates",
-    "api_leads",
+    "api_prospects",
     "api_orders",
     "api_teams",
     "api_users",

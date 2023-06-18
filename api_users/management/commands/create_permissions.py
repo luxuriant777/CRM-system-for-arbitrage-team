@@ -11,10 +11,10 @@ class Command(BaseCommand):
         content_type = ContentType.objects.get_for_model(CustomUser)
 
         permissions = [
-            {"codename": "view_team_lead", "name": "Can view Team Lead"},
-            {"codename": "add_team_lead", "name": "Can add Team Lead"},
-            {"codename": "change_team_lead", "name": "Can change Team Lead"},
-            {"codename": "delete_team_lead", "name": "Can delete Team Lead"},
+            {"codename": "view_team_lead", "name": "Can view Team Prospect"},
+            {"codename": "add_team_lead", "name": "Can add Team Prospect"},
+            {"codename": "change_team_lead", "name": "Can change Team Prospect"},
+            {"codename": "delete_team_lead", "name": "Can delete Team Prospect"},
             {"codename": "view_buyer", "name": "Can view Buyer"},
             {"codename": "add_buyer", "name": "Can add Buyer"},
             {"codename": "change_buyer", "name": "Can change Buyer"},

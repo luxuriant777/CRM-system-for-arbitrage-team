@@ -21,7 +21,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("", include("html_templates.urls")),
     path("api/users/", include(("api_users.urls", "api_users"), namespace="api_users")),
-    path("api/leads/", include(("api_leads.urls", "api_leads"), namespace="api_leads")),
+    path("api/prospects/", include(("api_prospects.urls", "api_prospects"), namespace="api_prospects")),
     path("api/orders/", include(("api_orders.urls", "api_orders"), namespace="api_orders")),
     path("api/teams/", include(("api_teams.urls", "api_teams"), namespace="api_teams")),
     path("jet/", include(("jet.urls", "jet"), namespace="jet")),

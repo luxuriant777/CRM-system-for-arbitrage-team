@@ -1,29 +1,29 @@
 from drf_yasg.utils import swagger_auto_schema
 from crm_arbitrage.utils import get_authorization_parameter
-from .tasks import process_lead
+from .tasks import process_prospect
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from .models import Lead
-from .serializers import LeadSerializer
+from .models import Prospect
+from .serializers import ProspectSerializer
 
 
-class LeadCreateView(generics.CreateAPIView):
-    serializer_class = LeadSerializer
+class ProspectCreateView(generics.CreateAPIView):
+    serializer_class = ProspectSerializer
 
     def perform_create(self, serializer):
-        lead_data = serializer.validated_data
-        process_lead.delay(lead_data)
+        prospect_data = serializer.validated_data
+        process_prospect.delay(prospect_data)
 
 
-class LeadListView(generics.ListAPIView):
-    queryset = Lead.objects.all()
-    serializer_class = LeadSerializer
+class ProspectListView(generics.ListAPIView):
+    queryset = Prospect.objects.all()
+    serializer_class = ProspectSerializer
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_description="List all leads",
+        operation_description="List all prospects",
         responses={
-            200: LeadSerializer(many=True),
+            200: ProspectSerializer(many=True),
             401: "Unauthorized",
             500: "Internal Server Error"
         },
